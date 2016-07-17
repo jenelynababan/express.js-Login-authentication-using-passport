@@ -1,0 +1,37 @@
+<html> 
+<head>
+	<title><%= title %></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../views/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="content title">
+		<h1><%= title %></h1>
+	</div>
+	<div class="container">
+		<div class="container">
+			<a href="/"><button  class="btn"><< Go back to Homepage</button></a>
+		</div>
+		<div class="container">
+		    <form action="/login" method="post">
+				<div>
+					<input type="text" name="username" class="input" placeholder="Username" />
+				</div>
+				<div>
+					<input type="password" name="password" class="input" placeholder="Password" />
+				</div>
+				<div>
+		        <button type="submit" type="submit" class="btn form">Login</button>
+		      </div>
+		    </form>
+		</div>
+	</div>
+
+	<div>
+		Login with:
+			<a href="/auth/facebook">Facebook</a>
+			<!-- <a href="#">Twitter</a> -->
+	</div>
+	 Click <a href="/create-account">here</a> to register.<br>
+	</body>
+</html>

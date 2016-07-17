@@ -1,0 +1,34 @@
+<html> 
+<head>
+	<title><%= title %></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../views/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="content title">
+		<h1><%= title %></h1>
+	</div>
+	Start creating your account
+	<div class="container">
+	    <form action="/register" method="post">
+<!-- 			<div>
+				<input type="text" name="displayName" class="input" placeholder="Complete Name" />
+			</div>
+			<div>
+				<input type="email" name="email" class="input" placeholder="email" />
+			</div>	 -->	    
+			<div>
+				<input type="text" class="input" name="username" placeholder="Username" />
+			</div>
+			<div>
+				<input type="password" class="input" name="password" placeholder="Password" />
+			</div>
+			<div>
+			<button type="submit" class="form" >Register</button> 
+			</div>
+	    </form>
+	</div>
+	 Already have an account? Click <a href="/login">here</a> to Login.<br>
+
+	</body>
+</html>
