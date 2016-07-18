@@ -21,6 +21,7 @@ UserModel.prototype.authenticate = function(data, callback) {
 	}
 	sql = "SELECT * FROM users where username  = '"+data.username+"' "+condition;
 	this.execute(sql, callback);
+	console.log(sql);
 	};
 //exports ContactModel
 module.exports = new UserModel();
