@@ -1,10 +1,12 @@
 //all login authentication. local/social
-var passport     	 = require('passport'),
-	LocalStrategy	 = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var model   	 	 = require('../models/user_model');
-var connection	     = require('./db');
-var social		     = require('../models/social_model');
+var passport     	  = require('passport'),
+	LocalStrategy	  = require('passport-local').Strategy;
+var FacebookStrategy  = require('passport-facebook').Strategy;
+var GithubStrategy    =  require('passport-github').Strategy;
+var InstagramStrategy = require('passport-instagram').Strategy;
+var model   	 	  = require('../models/user_model');
+var connection	      = require('./db');
+var social		      = require('../models/social_model');
 
 // local authenticate
 // login
@@ -34,6 +36,7 @@ passport.use('register', new LocalStrategy(
 		var data = { username : username ,
 					 password : null
 					  };
+			console.log(data);		  
 		// check if username already exist			 
 		model.authenticate(data, function(err, rows){
 			var exist = rows.length > 0 ? true : false;
@@ -71,6 +74,32 @@ function(accessToken, refreshToken, profile, done) {
 	}
 ));
 
+
+
+passport.use(new GithubStrategy({
+  clientID		: social.github.clientID,
+  clientSecret	: social.github.clientSecret,
+  callbackURL	: social.github.callbackURL
+},
+function(accessToken, refreshToken, profile, done) {
+  process.nextTick(function () {
+    return done(null, profile);
+  });
+}
+));
+
+
+passport.use(new InstagramStrategy({
+  clientID     : social.instagram.clientID,
+  clientSecret : social.instagram.clientSecret,
+  callbackURL  : social.instagram.callbackURL
+},
+function(accessToken, refreshToken, profile, done) {
+  process.nextTick(function () {
+    return done(null, profile);
+  });
+}
+));
 
 passport.serializeUser(function(user, done) {
 	done(null, user);

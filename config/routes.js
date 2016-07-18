@@ -31,6 +31,24 @@ module.exports = function(app) {
 		res.redirect('/home');
 	});
 
+	app.get('/auth/github',
+	  passport.authenticate('github'),
+	  function(req, res){});
+	app.get('/auth/github/callback',
+	  passport.authenticate('github', { failureRedirect: '/login' }),
+	  function(req, res) {
+	    res.redirect('/home');
+	  });
+
+	app.get('/auth/instagram',
+	  passport.authenticate('instagram'),
+	  function(req, res){});
+	app.get('/auth/instagram/callback',
+	  passport.authenticate('instagram', { failureRedirect: '/login' }),
+	  function(req, res) {
+	    res.redirect('/home');
+	  });
+
 	//Routes for not initialize
 	app.get('*',err.viewPageNotFound);
 }
