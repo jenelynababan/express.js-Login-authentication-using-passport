@@ -9,11 +9,6 @@ function User() {
 User.prototype.constructor = User;
 
 User.prototype.viewLogin =  function(req, res) {
-		// var session = req.session.passport;
-		// console.log(session);
-		// if (session != undefined) {
-		// 	res.redirect('/');
-		// }
 		data.title = 'Login';
 		res.render('../views/html/login.html',data);
 	}
@@ -23,9 +18,6 @@ User.prototype.viewLogin =  function(req, res) {
 User.prototype.register =  function(req, res) {
 	var username  	= req.body.username;
 	var password  	= req.body.password;
-	// var displayName = req.body.displayName;
-	// var email  		= req.body.email;
-	console.log(username);
 }
 
 User.prototype.viewRegistration =  function(req, res) {
@@ -46,14 +38,15 @@ User.prototype.login = function(req, res){
 	var content = 'This is the homepage';
 	var user_v 	= 'Visitor';
 	var choice	= 'Login';
+	var link	= '/login';
 	if (session === undefined) {
-		res.render('../views/html/profile.html', {title : title , user : user_v, choice : choice, content : content});
-	} else {
+		res.render('../views/html/profile.html', {title : title , user : user_v, choice : choice, content : content, link : link });
+		} else {
 		var user  = req.session.passport.user;
 		if (user === undefined) {
-			res.render('../views/html/profile.html', {title : title , user : user_v , choice : choice, content : content});
+			res.render('../views/html/profile.html', {title : title , user : user_v , choice : choice, content : content, link : link});
 		} else {
-			res.render('../views/html/profile.html', {title :'Welcome', user : user, choice : 'Logout', content : content});
+			res.render('../views/html/profile.html', {title :'Welcome', user : user, choice : 'Logout', content : content, link : '/logout'});
 			console.log("review data:" , user);
 		}
 		
