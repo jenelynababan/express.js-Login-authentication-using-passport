@@ -7,7 +7,6 @@ var parser 			= require('body-parser');
 // jen was here
 var passport        = require('passport');
 var LocalStrategy   = require('passport-local').Strategy;
-var GithubStrategy  = require('passport-github').Strategy;
 var cookieParser    = require('cookie-parser');
 
 
