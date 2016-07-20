@@ -4,17 +4,8 @@ var pool 	=  	mysql.createPool({
     host     : 'localhost',
     user     : 'Priume',
     password : 'Teampriume18!',
-    database : 'contact_book'
+    database : 'priume'
 });   
-
-// var connection = mysql.createConnection({
-// 	connectionLimit : 1000,
-//     host     : 'localhost',
-//     user     : 'root',
-//     password : '',
-//     database : 'contact_book'
-// });
-//establish connection
 
  pool.getConnection(function(err, connection) {
     if (err) {

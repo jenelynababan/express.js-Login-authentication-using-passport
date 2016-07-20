@@ -1,52 +1,44 @@
 module.exports = function(app) {
 
 	var err				= require('../controllers/err');
-	// jen was here
 	var usercontroller  = require('../controllers/user');
 	
-	// jen was here
+	app.get('/', usercontroller.Login);
+	app.get('/Login', usercontroller.ViewLogin);
+	app.get('/Create-account', usercontroller.ViewRegistration);
+	app.get('/Home', usercontroller.Login);
+	app.get('/Failed', usercontroller.Failed);
+	app.get('/Logout', usercontroller.Logout);
 	// working on passport
-	app.get('/', usercontroller.login);
-	app.get('/login', usercontroller.viewLogin);
-	app.get('/create-account', usercontroller.viewRegistration);
-	app.get('/home', usercontroller.login);
-	app.get('/failed', usercontroller.failed);
-	app.post('/register', passport.authenticate('register', {
-		failureRedirect: '/failed',
-		successRedirect: '/login'
+	app.post('/Register', passport.authenticate('register', {
+		failureRedirect: '/Failed',
+		successRedirect: '/Login'
 	}));
-	app.post('/login', passport.authenticate('login', {
-		failureRedirect: '/failed',
-		successRedirect: '/home'
+	app.post('/Login', passport.authenticate('login', {
+		failureRedirect: '/Failed',
+		successRedirect: '/Home'
 	}));
-	app.get('/logout', usercontroller.logout);
 
 	// Socialmedia login with passport
-	app.get('/auth/facebook',
-		passport.authenticate('facebook'),
-		function(req, res){});
-	app.get('/auth/facebook/callback',
-	passport.authenticate('facebook', { failureRedirect: '/login' }),
-		function(req, res) {
-		res.redirect('/home');
+	app.get('/auth/Facebook',
+		passport.authenticate('facebook'), function(req, res){});
+	app.get('/auth/Facebook/callback', passport.authenticate('facebook', 
+		{ failureRedirect: '/Login' }), function(req, res) {
+		res.redirect('/Home');
 	});
 
 	app.get('/auth/github',
-	  passport.authenticate('github'),
-	  function(req, res){});
-	app.get('/auth/github/callback',
-	  passport.authenticate('github', { failureRedirect: '/login' }),
-	  function(req, res) {
-	    res.redirect('/home');
+	  passport.authenticate('github'), function(req, res){});
+	app.get('/auth/github/callback', passport.authenticate('github', 
+		{ failureRedirect: '/Login' }), function(req, res) {
+	    res.redirect('/Home');
 	  });
 
 	app.get('/auth/instagram',
-	  passport.authenticate('instagram'),
-	  function(req, res){});
-	app.get('/auth/instagram/callback',
-	  passport.authenticate('instagram', { failureRedirect: '/login' }),
-	  function(req, res) {
-	    res.redirect('/home');
+	  passport.authenticate('instagram'), function(req, res){});
+	app.get('/auth/instagram/callback', passport.authenticate('instagram', 
+	  { failureRedirect: '/Login' }), function(req, res) {
+	    res.redirect('/Home');
 	  });
 
 	//Routes for not initialize
