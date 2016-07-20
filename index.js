@@ -4,7 +4,6 @@ var app         	= express();
 var compression     = require('compression');
 var http	 		= require('http');
 var parser 			= require('body-parser');
-// jen was here
 var passport        = require('passport');
 var LocalStrategy   = require('passport-local').Strategy;
 var cookieParser    = require('cookie-parser');
