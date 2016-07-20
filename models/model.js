@@ -13,10 +13,8 @@ Model.prototype.execute = function(sql,callback) {
 
 	//checking for database connection release
 	db.getConnection(function(err, connection) {
-	  // console.log(db._freeConnections.indexOf(connection)); 
 	  console.log('database release');
 	  connection.release();
-	  // console.log(db._freeConnections.indexOf(connection));	  
 	});
 };
 
