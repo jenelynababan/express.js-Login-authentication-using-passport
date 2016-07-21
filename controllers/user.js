@@ -2,7 +2,7 @@ function User() {
 	data 	  = {};
 	tomodel   = {};
 	model 	  = require('../models/User_model');
-    passport  = require('../config/auth');
+    passport  = require('./auth');
 };
  
 User.prototype.constructor = User;

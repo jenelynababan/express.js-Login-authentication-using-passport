@@ -6,7 +6,7 @@ var GithubStrategy    =  require('passport-github').Strategy;
 var InstagramStrategy = require('passport-instagram').Strategy;
 var bcrypt 			  = require('bcryptjs');
 var model   	 	  = require('../models/user_model');
-var connection	      = require('./db');
+var connection	      = require('../config/db');
 var social		      = require('../models/social_model');
 
 // local authentication
@@ -42,9 +42,9 @@ passport.use('register', new LocalStrategy(
 				var salt = bcrypt.genSaltSync(10);
 				var hash = bcrypt.hashSync(password, salt); 
 				// insert to table
-				var user 	   = {};
-				user.username  = username;
-				user.password  = hash;
+				var user 	  = {};
+				user.username = username;
+				user.password = hash;
 				model.register(user, function(err, rows) {
 					done(null, true);
 				});
@@ -59,37 +59,39 @@ passport.use(new FacebookStrategy({
     clientID      : social.facebook.clientID,
     clientSecret  : social.facebook.clientSecret,
     callbackURL   : social.facebook.callbackURL,
+    profileFields : social.facebook.profileFields
 }, function(accessToken, refreshToken, profile, done) {
-		var user = profile; 
-		return done(null, user);
+		process.nextTick(function () {
+			return done(null, profile);
+		});
 	}
 ));
 // github authentication
 passport.use(new GithubStrategy({
-  clientID		: social.github.clientID,
-  clientSecret	: social.github.clientSecret,
-  callbackURL	: social.github.callbackURL
+	clientID	 : social.github.clientID,
+	clientSecret : social.github.clientSecret,
+	callbackURL	 : social.github.callbackURL
 }, function(accessToken, refreshToken, profile, done) {
-	  process.nextTick(function () {
-	    return done(null, profile);
-	  });
+		process.nextTick(function () {
+			return done(null, profile);
+		});
 	}
 ));
 //instagram authentication
 passport.use(new InstagramStrategy({
-  clientID     : social.instagram.clientID,
-  clientSecret : social.instagram.clientSecret,
-  callbackURL  : social.instagram.callbackURL
+	clientID     : social.instagram.clientID,
+	clientSecret : social.instagram.clientSecret,
+	callbackURL  : social.instagram.callbackURL
 }, function(accessToken, refreshToken, profile, done) {
 		process.nextTick(function () {
-		return done(null, profile);
+			return done(null, profile);
 		});
 	}
 ));
 
 passport.serializeUser(function(user, done) {
 	done(null, user);
-	// console.log(user);
+	console.log(user);
 });
 
 passport.deserializeUser(function(username, done) {
