@@ -29,17 +29,3 @@ function getContentDiv(link) {
     return document.getElementById(linkTo);
 }
 
-$(document).ready(function(){
-		$(function(){
-		    $("#code").hide();
-		    $("#getCode").on("click", function(){
-		        $("#sendEmail, #code").toggle();
-		    });
-		});
-        $(function(){
-            $("#newPassword").hide();
-            $("#genCode").on("click", function(){
-                $("#code, #newPassword").toggle();
-            });
-        });
-	});
