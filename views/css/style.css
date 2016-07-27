@@ -2,7 +2,9 @@ body {
 	text-align: center;
 	background: #e6e4e4;
 }
-
+img {
+    width: 2%;
+}
 .container{
 	margin: 2%;
 }
@@ -41,7 +43,6 @@ body {
     border: 15px solid;
     border-radius: 2px;
     border-color: #96cad0;
-    color: inherit;
     width: 25%;
     margin: 5px;
 }
@@ -54,11 +55,10 @@ body {
     font-weight: 900;
 }
 .btn:hover{
-    background-color: #96cad0;
+    background-color: #ff1695;
     border: 15px solid;
     border-radius: 2px;
-    border-color: #96cad0;
-    color: black;
+    border-color: #ff1695;
 }
 .highlight{
 	font-style: italic;

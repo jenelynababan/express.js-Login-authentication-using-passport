@@ -3,36 +3,109 @@
 	<title><%= title %></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="../views/css/style.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
-	<div class="content title">
-		<h1><%= title %></h1>
-	</div>
-	<div class="container">
-		<div class="container">
-			<a href="/"><button  class="btn"><< Go back to Homepage</button></a>
+	<div id='b0'>
+		<div class="content title">
+			<h1><%= title %></h1>
 		</div>
 		<div class="container">
-		    <form action="/Login" method="post">
-				<div>
-					<input type="text" name="username" class="input" placeholder="Email" />
+			<div class="container">
+				<a href="/"><button  class="btn"><< Go back to Homepage</button></a>
+			</div>
+			<div class="container" >
+			    <form action="/Login" method="POST">
+					<div>
+						<input type="text" name="username" class="input" placeholder="Email" />
+					</div>
+					<div>
+						<input type="password" name="password" class="input" placeholder="Password" />
+					</div>
+					<div>
+			        	<button type="submit" type="submit" class="btn form">Login</button>
+			      </div>
+			    </form>
+				<div id="nav-links">
+					<a href="#!b0"></a>
+					<a href="#!b1" style="text-decoration: none;"><i>forgot password?</i></a> <br>
+					<a href="#!b2" style="text-decoration: none;"><i>Create new account</i></a>
 				</div>
-				<div>
-					<input type="password" name="password" class="input" placeholder="Password" />
+				<div class="title">
+					Login with
+					<div>
+						<a href="/auth/facebook"><img src="../views/img/facebook.png"></a>
+						<a href="/auth/google"><img src="../views/img/g+.png"></a>
+					</div>
 				</div>
-				<div>
-		        	<button type="submit" type="submit" class="btn form">Login</button>
-		      </div>
-		    </form>
+			</div>
 		</div>
 	</div>
 
 	<div>
-		Login with:
-			<a href="/auth/facebook">Facebook</a>
-			<a href="/auth/github">github</a>
-			<a href="/auth/instagram">instagram</a>
+		<div class='box' id='b1'>
+			<h1 class="title">Forgot password</h1>
+			<div class="container" id="sendEmail">
+				<form action="/Check-email" method="POST">
+					<div>
+						<input type="text" name="username" class="input" placeholder="Email" />
+					</div>
+					<div>
+			        	<button type="submit" type="submit" class="btn form" id="getCode">send</button>
+			      	</div>					
+				</form>
+				Go back to <a href="/login">Login</a>
+			</div>
+		</div>
 	</div>
-	 Click <a href="/Create-account">here</a> to register.<br>
-	</body>
+
+	<div class="container" id="b2">
+		<h1 class="title">Start creating your account</h1>
+	    <form action="#" method="post">   
+	    	<div>
+				<input type="text" class="input" name="firstname_sn" placeholder="First name" />
+			</div>
+			<div>
+				<input type="text" class="input" name="lastname_sn" placeholder="Last name" />
+			</div>
+			<div>
+				<input type="date" class="input" name="birthdate_dt" placeholder="Last name" />
+			</div>
+			<div>
+				<input type="email" class="input" name="username" placeholder="Email" />
+			</div>
+			<div>
+				<input type="password" class="input" name="password" placeholder="Password" />
+			</div>
+			<div>
+				<button type="submit" class="form" >Register</button> 
+			</div>
+	    </form>
+		Already have an account? login <a href="/login"> here</a>
+	</div>
+
+	<div id="code">
+		<form action="/Send-code" method="post">   
+	    	<div>
+				<input type="number" class="input" name="generatedCode_sn" placeholder="Enter Code" />
+			</div>
+				<button type="submit" class="form" id="genCode" >Verify code!</button> 
+			</div>
+		</form>
+		<div id="newPassword">
+			Reset
+			<form action="/Reset-password" method="post">
+				<div>
+					<input type="text" class="input" name="username" placeholder="Your email Adress" />
+				</div>   
+		    	<div>
+					<input type="password" class="input" name="password" placeholder="Your new Password" />
+				</div>
+					<button type="submit" class="form"  >Reset Password</button> 
+			</form>
+		</div>
+	</div>
+
+<script src="../views/js/custom.js"></script>
+</body>
 </html>
