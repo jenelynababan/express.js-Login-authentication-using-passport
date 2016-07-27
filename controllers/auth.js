@@ -1,13 +1,14 @@
 //all login authentication. local/social
 var passport     	  = require('passport'),
 	LocalStrategy	  = require('passport-local').Strategy;
-var FacebookStrategy  = require('passport-facebook').Strategy;
-var GithubStrategy    =  require('passport-github').Strategy;
-var InstagramStrategy = require('passport-instagram').Strategy;
-var bcrypt 			  = require('bcryptjs');
-var model   	 	  = require('../models/user_model');
-var connection	      = require('../config/db');
-var social		      = require('../models/social_model');
+    FacebookStrategy  = require('passport-facebook').Strategy;
+    GithubStrategy    = require('passport-github').Strategy;
+    InstagramStrategy = require('passport-instagram').Strategy;
+    GoogleStrategy 	  = require('passport-google-oauth2').Strategy;
+    bcrypt 			  = require('bcryptjs');
+    model   	 	  = require('../models/user_model');
+    connection	      = require('../config/db');
+    social		      = require('../models/social_model');
 
 // local authentication
 // login
@@ -18,8 +19,8 @@ passport.use('login', new LocalStrategy(
 		model.authenticate(username, function(err, rows) {
 			var exist = rows.length > 0 ? true : false; 
 			if(exist) {
-				var user    = rows[0];
-				var value = bcrypt.compareSync(password, user.password_sn); //if username and password match
+				var user  = rows[0];
+					value = bcrypt.compareSync(password, user.password_sn); //if username and password match
 				if(value) {
 					return done(null, user);
 				}
@@ -30,28 +31,29 @@ passport.use('login', new LocalStrategy(
 ));
 
 //register
-passport.use('register', new LocalStrategy(
-	function(username, password, done) {
-		// check if username already exist 
-		model.authenticate(username, function(err, rows) {
-			var exist = rows.length > 0 ? true : false;
-			if (exist) {
-            	return done(null, false);
-			} else {
-				//password hashing
-				var salt = bcrypt.genSaltSync(10);
-				var hash = bcrypt.hashSync(password, salt); 
-				// insert to table
-				var user 	  = {};
-				user.username = username;
-				user.password = hash;
-				model.register(user, function(err, rows) {
-					done(null, true);
-				});
-			}
-		});
-	}
-));
+// passport.use('register', new LocalStrategy(
+// 	function(username, password, done) {
+// 		// check if username already exist 
+// 		model.authenticate(username, function(err, rows) {
+// 			var exist = rows.length > 0 ? true : false;
+// 				if (exist) {
+// 	            	return done(null, false);
+// 				} else {
+// 					//password hashing
+// 					var salt = bcrypt.genSaltSync(10);
+// 					var hash = bcrypt.hashSync(password, salt); 
+// 					// getting values
+// 					var user 	  = {};
+// 					user.username = username;
+// 					user.password = hash;
+// 					//inserting to db
+// 					model.register(user, function(err, rows) {
+// 						done(null, true);
+// 				});
+// 			}
+// 		});
+// 	}
+// ));
 // social media authentication
 // facebook authentication
 passport.use(new FacebookStrategy({
@@ -60,38 +62,69 @@ passport.use(new FacebookStrategy({
     clientSecret  : social.facebook.clientSecret,
     callbackURL   : social.facebook.callbackURL,
     profileFields : social.facebook.profileFields
-}, function(accessToken, refreshToken, profile, done) {
-		process.nextTick(function () {
-			return done(null, profile);
+}, function(res,accessToken, refreshToken, profile, done) {
+	var username = profile._json.email;
+	model.authenticate(username, function(err, rows) { 
+		var exist = rows.length > 0 ? true : false; //if email already exist
+			if (profile._json.email === undefined) {
+				return done(null, false);
+			}
+			if (exist) {
+            	return done(null, profile);
+			} else {
+				process.nextTick(function () {
+					var user = {};
+					// getting values
+					user.firstname = profile._json.first_name;
+					user.lastname  = profile._json.last_name;
+					user.username  = profile._json.email;
+					user.password  = '';
+					//insert social media information to local db
+					model.register(user, function(err, rows) {
+						return done(null, profile);
+					});		
+				});
+			}
 		});
 	}
 ));
-// github authentication
-passport.use(new GithubStrategy({
-	clientID	 : social.github.clientID,
-	clientSecret : social.github.clientSecret,
-	callbackURL	 : social.github.callbackURL
-}, function(accessToken, refreshToken, profile, done) {
-		process.nextTick(function () {
-			return done(null, profile);
-		});
+//google authentication
+passport.use(new GoogleStrategy({
+	// pull in our app id and secret
+	clientID     : social.google.clientID,
+	clientSecret : social.google.clientSecret,
+	callbackURL  : social.google.callbackURL
+}, function(res, accessToken, refreshToken, profile, done) {
+	var age = profile._json.ageRange.max < 18 ? true : false; //check age if valid to login
+		if (age) {
+			return done(null, false);
+		} else {
+		var username = profile.email;
+		model.authenticate(username, function(err, rows) { 
+			var exist = rows.length > 0 ? true : false; //if email already exist
+				if (exist) {
+	            	return done(null, profile);
+				} else {
+					process.nextTick(function () {
+						var user = {};
+						// getting values
+						user.firstname = profile.name.givenName;
+						user.lastname  = profile.name.familyName;
+						user.username  = profile.email;
+						user.password  = '';
+						//insert social media information to local db
+						model.register(user, function(err, rows) {
+							return done(null, profile);
+						});		
+					});
+				}
+			});
+		}
 	}
 ));
-//instagram authentication
-passport.use(new InstagramStrategy({
-	clientID     : social.instagram.clientID,
-	clientSecret : social.instagram.clientSecret,
-	callbackURL  : social.instagram.callbackURL
-}, function(accessToken, refreshToken, profile, done) {
-		process.nextTick(function () {
-			return done(null, profile);
-		});
-	}
-));
-
+// serialize and deserialize
 passport.serializeUser(function(user, done) {
 	done(null, user);
-	console.log(user);
 });
 
 passport.deserializeUser(function(username, done) {
@@ -99,5 +132,3 @@ passport.deserializeUser(function(username, done) {
 });
 
 module.exports = passport;
-
-
