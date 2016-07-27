@@ -1,14 +1,12 @@
 //Initializing variables
 var express 		= require('express');
 var app         	= express();
-var compression     = require('compression');
+var compression    	= require('compression');
 var http	 		= require('http');
 var parser 			= require('body-parser');
-var passport        = require('passport');
-var LocalStrategy   = require('passport-local').Strategy;
-var cookieParser    = require('cookie-parser');
-
-
+var passport       	= require('passport');
+var LocalStrategy  	= require('passport-local').Strategy;
+var cookieParser   	= require('cookie-parser');
 // db
 var db = require('./config/db');
 
@@ -25,7 +23,6 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 app.use(passport.initialize());
 // app.use(passport.session());
 
-
 // compress all requests 
 app.use(compression()); 
 
@@ -36,10 +33,8 @@ app.engine('html', require('ejs').renderFile);
 //passing the app
 var routes  = require('./config/routes')(app);
 
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 //Creation of Server
 http.createServer(app).listen(8080,function() {	
