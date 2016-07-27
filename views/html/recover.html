@@ -1,0 +1,45 @@
+<html> 
+<head>
+	<title><%= title %></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../views/css/style.css" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+	<div id="newPass">
+		<h1 class="title content"><%= title %></h1>
+		<form action="/Send-code" method="post">   
+	    	<div>
+				<input type="number" class="input" name="generatedCode_sn" placeholder="Enter Code" />
+			</div>
+			<div>
+				<button type="submit" class="form" id="getCode" >Verify code!</button> 
+			</div>
+		</form>
+	</div>
+		<div id="code">
+			<h1 class="content title">Reset password </h1>
+			<form action="/Reset-password" method="post">
+				<div>
+					<input type="text" class="input" name="username" placeholder="Your email Adress" value="<%= email %>" hidden/>
+					<input type="text" class="input" placeholder="Your email Adress" value="<%= email %>" disabled/>
+				</div>   
+		    	<div>
+					<input type="password" class="input" name="password" placeholder="Your new Password" />
+				</div>
+					<button type="submit" class="form"  >Reset</button> 
+			</form>
+		</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+			$(function(){
+			    $("#code").hide();
+			    $("#getCode").on("click", function(){
+			        $("#newPass, #code").toggle();
+			    });
+			});
+		});
+</script>	
+</body>
+</html>

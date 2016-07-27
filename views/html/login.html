@@ -45,13 +45,13 @@
 	<div>
 		<div class='box' id='b1'>
 			<h1 class="title">Forgot password</h1>
-			<div class="container" id="sendEmail">
+			<div class="container">
 				<form action="/Check-email" method="POST">
 					<div>
 						<input type="text" name="username" class="input" placeholder="Email" />
 					</div>
 					<div>
-			        	<button type="submit" type="submit" class="btn form" id="getCode">send</button>
+			        	<button type="submit" type="submit" class="btn form">send</button>
 			      	</div>					
 				</form>
 				Go back to <a href="/login">Login</a>
@@ -83,29 +83,6 @@
 	    </form>
 		Already have an account? login <a href="/login"> here</a>
 	</div>
-
-	<div id="code">
-		<form action="/Send-code" method="post">   
-	    	<div>
-				<input type="number" class="input" name="generatedCode_sn" placeholder="Enter Code" />
-			</div>
-				<button type="submit" class="form" id="genCode" >Verify code!</button> 
-			</div>
-		</form>
-		<div id="newPassword">
-			Reset
-			<form action="/Reset-password" method="post">
-				<div>
-					<input type="text" class="input" name="username" placeholder="Your email Adress" />
-				</div>   
-		    	<div>
-					<input type="password" class="input" name="password" placeholder="Your new Password" />
-				</div>
-					<button type="submit" class="form"  >Reset Password</button> 
-			</form>
-		</div>
-	</div>
-
 <script src="../views/js/custom.js"></script>
 </body>
 </html>
