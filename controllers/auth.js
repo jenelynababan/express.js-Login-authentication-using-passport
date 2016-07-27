@@ -30,30 +30,6 @@ passport.use('login', new LocalStrategy(
 	}
 ));
 
-//register
-// passport.use('register', new LocalStrategy(
-// 	function(username, password, done) {
-// 		// check if username already exist 
-// 		model.authenticate(username, function(err, rows) {
-// 			var exist = rows.length > 0 ? true : false;
-// 				if (exist) {
-// 	            	return done(null, false);
-// 				} else {
-// 					//password hashing
-// 					var salt = bcrypt.genSaltSync(10);
-// 					var hash = bcrypt.hashSync(password, salt); 
-// 					// getting values
-// 					var user 	  = {};
-// 					user.username = username;
-// 					user.password = hash;
-// 					//inserting to db
-// 					model.register(user, function(err, rows) {
-// 						done(null, true);
-// 				});
-// 			}
-// 		});
-// 	}
-// ));
 // social media authentication
 // facebook authentication
 passport.use(new FacebookStrategy({
