@@ -26,7 +26,7 @@ User.prototype.ViewLogin =  function(req, res) {
 // cheching email if exist
 User.prototype.CheckEmail = function(req, res) {
 	var username = req.body.username;
-		model.authenticate(username, function(err, rows) {
+		model.Authenticate(username, function(err, rows) {
 			var exist = rows.length > 0 ? true : false;//if email exist
 				if (exist) {
 
@@ -35,12 +35,12 @@ User.prototype.CheckEmail = function(req, res) {
 							str1 	= date.toString();
 							genCode = str1.slice(8);
 							//update field
-							model.getCode(genCode, username, function(err, rows) {
+							model.GetCode(genCode, username, function(err, rows) {
 								var	user = {};
 									user.generatedCode_sn = genCode;
 									user.emailaddress_sn  = username;
 						});
-
+						//sending code to email
 						var primaryEmail = 'your email';
 							password 	 = 'xxxxxxxx';
 						
@@ -75,16 +75,18 @@ User.prototype.CheckEmail = function(req, res) {
 					            pass : password
 					        }
 					    });
-						var text = 'Your Generated code is ' + genCode;
 
-						var mailOptions = {
-						    from 	: '<ababanjen@gmail.com>',
-						    to 		: username,
-						    subject : 'Password Reset', 
-						    text	: text //, // plaintext body
-					    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+						var text = 'Your Generated code is ' + genCode;
+							mailOptions = {
+							    from 	: primaryEmail,
+							    to 		: username,
+							    subject : 'Password Reset', 
+							    text	: text //, // plaintext body
+						    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
 						};
+
 						console.log(genCode);
+
 						transporter.sendMail(mailOptions, function(error, info){
 						    if(error){
 						        console.log(error);
@@ -100,10 +102,10 @@ User.prototype.CheckEmail = function(req, res) {
 				}
 		});
 }
-//check if match
+//check if code inputed match
 User.prototype.SendCode = function(req, res, next) {
 	var code = req.body.generatedCode_sn;
-	model.verifyCode(code, function(err, rows) {
+	model.VerifyCode(code, function(err, rows) {
 	var exist = rows.length > 0 ? true : false; 
 		if(exist) {
 				// res.send("code sent");
@@ -113,17 +115,17 @@ User.prototype.SendCode = function(req, res, next) {
 		}
 	}); 
 };
-
+// Reset password if code inputed matched
 User.prototype.ResetPassword = function(req, res) {
 	var username = req.body.username;
 		password = req.body.password;
-		model.authenticate(username, function(err, rows) {
-			var exist = rows.length > 0 ? true : false; 
+		model.Authenticate(username, function(err, rows) { 
+			var exist = rows.length > 0 ? true : false; //Selecting email to change pass
 			if(exist) {
 					// hash password
-					var	salt = bcrypt.genSaltSync(10);
+					var	salt 	 = bcrypt.genSaltSync(10);
 						password = bcrypt.hashSync(password, salt); 
-				model.resetPassword(password, username, function(err, rows) {
+				model.ResetPassword(password, username, function(err, rows) { //reset password
 						user = {};
 						user.password_sn 	 = password;
 						user.emailaddress_sn = username;
@@ -140,7 +142,7 @@ User.prototype.ResetPassword = function(req, res) {
 User.prototype.Failed = function(req, res) {
 	res.send('failed');
 }
-//success
+//success login
 User.prototype.Login = function(req, res){
 	var session    = req.session.passport;
 		title      = 'Welcome';
