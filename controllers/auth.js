@@ -16,7 +16,7 @@ passport.use('login', new LocalStrategy(
 	// get values from form
 	function(username, password, done) {
 		// check if username exist			 
-		model.authenticate(username, function(err, rows) {
+		model.Authenticate(username, function(err, rows) {
 			var exist = rows.length > 0 ? true : false; 
 			if(exist) {
 				var user  = rows[0];
@@ -30,6 +30,30 @@ passport.use('login', new LocalStrategy(
 	}
 ));
 
+//register
+// passport.use('register', new LocalStrategy(
+// 	function(username, password, done) {
+// 		// check if username already exist 
+// 		model.Authenticate(username, function(err, rows) {
+// 			var exist = rows.length > 0 ? true : false;
+// 				if (exist) {
+// 	            	return done(null, false);
+// 				} else {
+// 					//password hashing
+// 					var salt = bcrypt.genSaltSync(10);
+// 					var hash = bcrypt.hashSync(password, salt); 
+// 					// getting values
+// 					var user 	  = {};
+// 					user.username = username;
+// 					user.password = hash;
+// 					//inserting to db
+// 					model.register(user, function(err, rows) {
+// 						done(null, true);
+// 				});
+// 			}
+// 		});
+// 	}
+// ));
 // social media authentication
 // facebook authentication
 passport.use(new FacebookStrategy({
@@ -40,7 +64,7 @@ passport.use(new FacebookStrategy({
     profileFields : social.facebook.profileFields
 }, function(res,accessToken, refreshToken, profile, done) {
 	var username = profile._json.email;
-	model.authenticate(username, function(err, rows) { 
+	model.Authenticate(username, function(err, rows) { 
 		var exist = rows.length > 0 ? true : false; //if email already exist
 			if (profile._json.email === undefined) {
 				return done(null, false);
@@ -76,7 +100,7 @@ passport.use(new GoogleStrategy({
 			return done(null, false);
 		} else {
 		var username = profile.email;
-		model.authenticate(username, function(err, rows) { 
+		model.Authenticate(username, function(err, rows) { 
 			var exist = rows.length > 0 ? true : false; //if email already exist
 				if (exist) {
 	            	return done(null, profile);
