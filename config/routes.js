@@ -5,7 +5,6 @@ module.exports = function(app) {
 	
 	app.get('/', usercontroller.Login);
 	app.get('/Login', usercontroller.ViewLogin);
-	// app.get('/Create-account', usercontroller.ViewRegistration);
 	app.get('/Home', usercontroller.Login);
 	app.get('/Failed', usercontroller.Failed);
 	app.get('/Logout', usercontroller.Logout);
@@ -18,10 +17,6 @@ module.exports = function(app) {
 		failureRedirect: '/Failed',
 		successRedirect: '/Home'
 	}));
-	// app.post('/Register', passport.authenticate('register', {
-	// 	failureRedirect: '/Failed',
-	// 	successRedirect: '/Create-account'
-	// }));
 	// Socialmedia auth with passport
 	app.get('/auth/facebook',
 		passport.authenticate('facebook', { scope: ['email', 'public_profile', 'user_birthday'] }), function(req, res){});
