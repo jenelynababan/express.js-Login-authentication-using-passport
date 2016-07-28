@@ -41,8 +41,8 @@ User.prototype.CheckEmail = function(req, res) {
 									user.emailaddress_sn  = username;
 						});
 						//sending code to email
-						var primaryEmail = 'your email';
-							password 	 = 'xxxxxxxx';
+						var primaryEmail = 'email here';
+							password 	 = 'xxxxxxxxxx';
 						
 						var smtpConfig = {
 						    host: 'smtp.gmail.com',
