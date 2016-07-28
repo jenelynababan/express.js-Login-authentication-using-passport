@@ -11,7 +11,6 @@ var ids  = {
     clientID     : 'get your own',
     clientSecret : 'get your own',
     callbackURL  : host+"/auth/google/callback",
-
   }   
 };
 
