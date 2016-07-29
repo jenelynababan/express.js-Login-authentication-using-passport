@@ -4,7 +4,6 @@ function User() {
 	data 	  = {};
 	tomodel   = {};
 	model 	  = require('../models/User_model');
-	social	  = require('../models/social_model');
     passport  = require('./auth');
 };
 
@@ -33,9 +32,8 @@ User.prototype.CheckEmail = function(req, res) {
 
 						var	date = Date.now();
 							// Generate code
-							str1 	   = date.toString();
-							sliceCoode = str1.slice(8);
-							genCode    = parseInt(sliceCoode); //to convert string to integer
+							str1 	= date.toString();
+							genCode = str1.slice(8);
 							//update field
 							model.GetCode(genCode, username, function(err, rows) {
 								var	user = {};
@@ -43,8 +41,8 @@ User.prototype.CheckEmail = function(req, res) {
 									user.emailaddress_sn  = username;
 						});
 						//sending code to email
-						var primaryEmail = social.email.primaryEmail;
-							password 	 = social.email.password;
+						var primaryEmail = 'email here';
+							password 	 = 'xxxxxxxxxx';
 						
 						var smtpConfig = {
 						    host: 'smtp.gmail.com',
@@ -166,7 +164,6 @@ User.prototype.Login = function(req, res){
 					user = {displayName : user.firstname_sn + ' ' + user.lastname_sn}; //overide displayName
 					res.render('../views/html/profile.html', {title : title, user : user, choice : 'Logout', link : '/Logout'});
 				}
-				console.log(user);
 			}
 		} 
 }

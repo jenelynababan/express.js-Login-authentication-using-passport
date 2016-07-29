@@ -11,11 +11,7 @@ var ids  = {
     clientID     : 'get your own',
     clientSecret : 'get your own',
     callbackURL  : host+"/auth/google/callback",
-  }
-  email : {
-    primaryEmail : 'email@mail.com',
-    password     : 'xxxxxxxxxxx'
-  }      
+  }   
 };
 
 module.exports = ids;
