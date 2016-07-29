@@ -4,7 +4,7 @@ function User() {
 	data 	  = {};
 	tomodel   = {};
 	model 	  = require('../models/User_model');
-	social	  = require('../models/social_model');
+	social	  = require('../config/emailConfig');
     passport  = require('./auth');
 };
 
@@ -24,7 +24,7 @@ User.prototype.ViewLogin =  function(req, res) {
 		res.render('../views/html/login.html',data);
 	}
 }
-// cheching email if exist
+// cheching email if exist (forgot password)
 User.prototype.CheckEmail = function(req, res) {
 	var username = req.body.username;
 		model.Authenticate(username, function(err, rows) {
@@ -45,31 +45,10 @@ User.prototype.CheckEmail = function(req, res) {
 						//sending code to email
 						var primaryEmail = social.email.primaryEmail;
 							password 	 = social.email.password;
-						
-						var smtpConfig = {
-						    host: 'smtp.gmail.com',
-						    port: 465,
-						    secure: true, // use SSL
-						    auth: {
-						        user: primaryEmail,
-						        pass: password
-						    }
-						};
+							smtpConfig   = social.smtpConfig;
+							poolConfig   = social.poolConfig;
+							directConfig = social.directConfig;
 
-						var poolConfig = {
-						    pool: true,
-						    host: 'smtp.gmail.com',
-						    port: 465,
-						    secure: true, // use SSL
-						    auth: {
-						        user: primaryEmail,
-						        pass: password
-						    }
-						};
-
-						var directConfig = {
-						    name: 'http://localhost:8080/'
-						};
 					    var transporter = nodemailer.createTransport({
 					        service: 'Gmail',
 					        auth: {
@@ -79,7 +58,7 @@ User.prototype.CheckEmail = function(req, res) {
 					    });
 
 						var text = 'Your Generated code is ' + genCode;
-							mailOptions = {
+						mailOptions = {
 							    from 	: primaryEmail,
 							    to 		: username,
 							    subject : 'Password Reset', 
@@ -88,6 +67,7 @@ User.prototype.CheckEmail = function(req, res) {
 						};
 
 						console.log(genCode);
+
 						transporter.sendMail(mailOptions, function(error, info){
 						    if(error){
 						        console.log(error);
