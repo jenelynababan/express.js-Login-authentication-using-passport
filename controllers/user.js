@@ -3,8 +3,8 @@ var nodemailer = require('nodemailer');
 function User() {
 	data 	  = {};
 	tomodel   = {};
+	email	  = require('../config/emailConfig');
 	model 	  = require('../models/User_model');
-	social	  = require('../config/emailConfig');
     passport  = require('./auth');
 };
 
@@ -43,11 +43,11 @@ User.prototype.CheckEmail = function(req, res) {
 									user.emailaddress_sn  = username;
 						});
 						//sending code to email
-						var primaryEmail = social.email.primaryEmail;
-							password 	 = social.email.password;
-							smtpConfig   = social.smtpConfig;
-							poolConfig   = social.poolConfig;
-							directConfig = social.directConfig;
+						var primaryEmail = email.email.primaryEmail;
+							password 	 = email.email.password;
+							smtpConfig   = email.smtpConfig;
+							poolConfig   = email.poolConfig;
+							directConfig = email.directConfig;
 
 					    var transporter = nodemailer.createTransport({
 					        service: 'Gmail',
