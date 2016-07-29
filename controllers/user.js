@@ -88,7 +88,6 @@ User.prototype.CheckEmail = function(req, res) {
 						};
 
 						console.log(genCode);
-
 						transporter.sendMail(mailOptions, function(error, info){
 						    if(error){
 						        console.log(error);
