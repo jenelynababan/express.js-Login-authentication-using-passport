@@ -16,6 +16,7 @@ var ids  = {
     primaryEmail : 'email@mail.com',
     password     : 'xxxxxxxxxxx'
   }      
+  
 };
 
 module.exports = ids;
